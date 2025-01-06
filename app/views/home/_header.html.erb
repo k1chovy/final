@@ -1,0 +1,58 @@
+<header>
+  <div class="header-top">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-md-6 col-left">
+          <!-- Xóa thông tin không cần thiết -->
+        </div>
+        <div class="col-12 col-md-6 col-right">
+          <div class="d-flex flex-end">
+            <div class="item">
+              <span>
+                <i class="bi bi-person-fill fst-normal"></i>
+              </span>
+              <a href="#">Tài khoản</a>
+              <% if user_signed_in? %>
+                <div class="wrap-account">
+                  <%= link_to "Tài khoản", edit_user_registration_path, class: "d-block", data: { turbo: false } %>
+                  <%= button_to "Đăng xuất", destroy_user_session_path, method: :delete, class: "d-block btn-register", data: { turbo: false } %>
+                </div>
+              <% else %>
+                <div class="wrap-account">
+                  <%= link_to "Đăng nhập", new_user_session_path, class: "d-block", data: { turbo: false } %>
+                  <%= link_to "Đăng ký", new_user_registration_path, class: "d-block", data: { turbo: false } %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span data-turbo="false" class="navbar-brand mx-auto">
+      <%= link_to "HOME", root_path, class: "navbar-brand" %>
+    </span>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <% if user_signed_in? %>
+      <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <%= link_to "Create Post", new_post_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Post Cá Nhân", posts_path(user: current_user.id), class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Post Chung", posts_path, class: "nav-link" %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</nav>

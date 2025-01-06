@@ -1,0 +1,58 @@
+<h2>Trang khách hàng</h2>
+<div class="pb-2"><b>Xin chào: <%= resource_name.to_s.humanize %> !</b></div>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="form-group mb-3">
+    <%= f.label :email, class: "form-label" %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
+  </div>
+
+  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div class="alert alert-warning">
+      Hiện tại đang chờ xác nhận cho email: <%= resource.unconfirmed_email %>
+    </div>
+  <% end %>
+
+  <div class="form-group mb-3">
+    <%= f.label :password, class: "form-label" %>
+    <i>(Để trống nếu bạn không muốn thay đổi mật khẩu)</i>
+    <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+    <% if @minimum_password_length %>
+      <small class="form-text text-muted"><%= @minimum_password_length %> ký tự tối thiểu</small>
+    <% end %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= f.label :password_confirmation, class: "form-label" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= f.label :current_password, class: "form-label" %>
+    <i>(Chúng tôi cần mật khẩu hiện tại của bạn để xác nhận thay đổi)</i>
+    <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control" %>
+  </div>
+
+  <div class="actions" style="padding-top:5px;">
+    <%= f.submit "Cập nhật", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<h3 class="mt-4">Hủy tài khoản</h3>
+
+<%= form_with(model: resource, url: registration_path(resource_name), method: :delete) do |f| %>
+  <div class="form-group mb-3">
+    <%= f.label :current_password, class: "form-label" %>
+    <i>(Chúng tôi cần mật khẩu hiện tại của bạn để xác nhận thay đổi)</i>
+    <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control", required: true %>
+  </div>
+
+  <div class="mb-3">
+    Không hài lòng? 
+    <%= f.submit "Hủy tài khoản", class: "btn btn-danger" %>
+  </div>
+<% end %>
+
+<%= link_to "Quay lại", :back, class: "btn btn-secondary" %>

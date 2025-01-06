@@ -1,0 +1,35 @@
+<h1>Your Posts</h1>
+<% if @user_posts.present? %>
+  <% @user_posts.each do |post| %>
+    <div class="post">
+      <h3><%= link_to post.title, post_path(post) %></h3>
+      <% if post.image.attached? %>
+        <%= image_tag post.image, class: "img-thumbnail", style: "max-width: 300px;" %>
+      <% else %>
+        <p>No image available</p>
+      <% end %>
+      <p><%= truncate(post.content, length: 100) %></p>
+      <hr>
+    </div>
+  <% end %>
+<% else %>
+  <p>No posts found.</p>
+<% end %>
+
+<h1>Other Users' Posts</h1>
+<% if @other_posts.present? %>
+  <% @other_posts.each do |post| %>
+    <div class="post">
+      <h3><%= link_to post.title, post_path(post) %></h3>
+      <% if post.image.attached? %>
+        <%= image_tag post.image, class: "img-thumbnail", style: "max-width: 300px;" %>
+      <% else %>
+        <p>No image available</p>
+      <% end %>
+      <p><%= truncate(post.content, length: 100) %></p>
+      <hr>
+    </div>
+  <% end %>
+<% else %>
+  <p>No posts found.</p>
+<% end %>

@@ -1,0 +1,46 @@
+<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <div class="container" style="max-width: 500px; margin-top: 100px;">
+    <div class="card">
+      <div class="card-header text-center">
+        <h3>Đăng nhập</h3>
+      </div>
+      <div class="card-body">
+        
+        <% if resource.errors.any? %>
+          <div class="alert alert-danger">
+            <ul>
+              <% resource.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <%= f.label :email, class:"form-label" %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"form-control", placeholder:"Nhập email" %>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <%= f.label :password, class:"form-label" %><br />
+          <%= f.password_field :password, autocomplete: "current-password", class:"form-control", placeholder:"Nhập mật khẩu" %>
+        </div>
+
+        <!-- Remember Me -->
+        <% if devise_mapping.rememberable? %>
+          <div class="mb-3 form-check">
+            <%= f.check_box :remember_me, class:"form-check-input" %>
+            <%= f.label :remember_me, "Nhớ mật khẩu", class:"form-check-label" %>
+          </div>
+        <% end %>
+
+        <!-- Submit Button -->
+        <%= f.submit "Đăng nhập", class:"btn btn-primary w-100" %>
+
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
+  </div>
+<% end %>
