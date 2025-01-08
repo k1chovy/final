@@ -19,10 +19,14 @@
     <div class="card-footer d-flex justify-content-between">
       <div>
         <%= link_to "Edit", edit_post_path(@post), class: "btn btn-warning me-2" %>
-        <%= link_to 'Delete', post_path(@post), 
-            method: :delete, 
-            data: { turbo_method: :delete}, 
-            class: 'btn btn-danger btn-sm' %>
+        
+        <!-- Form yêu cầu mật khẩu để xóa bài viết -->
+        <%= form_with(model: @post, url: post_path(@post), method: :delete, class: "d-inline") do |f| %>
+          <div class="form-group d-inline">
+            <%= f.password_field :current_password, placeholder: "Enter password", class: "form-control form-control-sm d-inline-block w-auto me-2", required: true %>
+          </div>
+          <%= f.submit "Delete", class: "btn btn-danger btn-sm" %>
+        <% end %>
       </div>
       <%= link_to "Back to Posts", posts_path, class: "btn btn-secondary" %>
     </div>

@@ -44,18 +44,26 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    if @post.destroy
-      respond_to do |format|
-        format.html { redirect_to user_posts_path, notice: 'Post deleted successfully.' }
-        format.js   # Xử lý yêu cầu AJAX
+    if current_user.valid_password?(params[:post][:current_password])
+      if @post.destroy
+        respond_to do |format|
+          format.html { redirect_to user_posts_path, notice: 'Post deleted successfully.' }
+          format.js   # Xử lý yêu cầu AJAX
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to user_posts_path, alert: 'Failed to delete the post.' }
+          format.js   # Xử lý yêu cầu AJAX cho lỗi
+        end
       end
     else
       respond_to do |format|
-        format.html { redirect_to user_posts_path, alert: 'Failed to delete the post.' }
-        format.js   # Xử lý yêu cầu AJAX cho lỗi
+        format.html { redirect_to post_path(@post), alert: 'Incorrect password. Please try again.' }
+        format.js   # Xử lý yêu cầu AJAX cho lỗi xác thực
       end
     end
   end
+
   private
 
   def set_post
@@ -69,6 +77,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :content, :image)
+    params.require(:post).permit(:title, :content, :image, :current_password)
   end
 end
