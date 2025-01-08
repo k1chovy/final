@@ -9,10 +9,11 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
-  # Routes cho bài viết chung và tích hợp routes cho comments
-  resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-    resources :comments, only: [:create]
-  end
+  # Route admin login, dashboard, and logout
+  get '/admin/login', to: 'admin#login', as: 'admin_login'
+  post '/admin/authenticate', to: 'admin#authenticate', as: 'admin_authenticate'
+  get '/admin', to: 'admin#dashboard', as: 'admin_dashboard'
+  delete '/admin/logout', to: 'admin#logout', as: 'admin_logout'
 
   # Root
   root "posts#index"
