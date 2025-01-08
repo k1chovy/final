@@ -4,3 +4,4 @@ import "controllers";
 import "trix";
 import "@rails/actiontext";
 import "@rails/activestorage";
+require("@rails/ujs").start(); // Dòng này rất quan trọng
