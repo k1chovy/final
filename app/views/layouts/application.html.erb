@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Blog" %></title>  <!-- Thay đổi ở đây -->
+    <title><%= content_for(:title) || "Blog" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -23,10 +23,19 @@
   <body>
     <%= render "home/header" %>
     <div class="container">
-      <br>
-      <% if notice %>
-        <%= render 'layouts/alerts' %>
-      <% end %>
+      <!-- Flash messages -->
+      <div class="mt-3">
+        <% if flash.any? %>
+          <% flash.each do |type, message| %>
+            <div class="alert <%= flash_class(type) %> alert-dismissible fade show" role="alert">
+              <%= message %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <!-- Main Content -->
       <%= yield %>
     </div>
 

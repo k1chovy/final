@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_post, only: [:show, :edit, :update, :destroy] # Thêm :destroy vào đây
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
     @user_posts = Post.where(user: current_user)
@@ -21,39 +22,50 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to posts_path, notice: 'Post created successfully.'
+      flash[:notice] = 'Post created successfully.'
+      redirect_to posts_path
     else
-      render :new, alert: 'Failed to create post.'
+      flash[:alert] = 'Failed to create post. Please check the errors below.'
+      render :new
     end
   end
 
   def edit
-    unless @post.user == current_user
-      redirect_to posts_path, alert: 'You can only edit your own posts.'
-    end
   end
 
   def update
-    if @post.user == current_user && @post.update(post_params)
-      redirect_to post_path(@post), notice: 'Post updated successfully.'
+    if @post.update(post_params)
+      flash[:notice] = 'Post updated successfully.'
+      redirect_to post_path(@post)
     else
-      render :edit, alert: 'Failed to update post.'
+      flash[:alert] = 'Failed to update post. Please check the errors below.'
+      render :edit
     end
   end
 
   def destroy
-    if @post.user == current_user
-      @post.destroy
-      redirect_to user_posts_path, notice: 'Post deleted successfully.'
+    if @post.destroy
+      respond_to do |format|
+        format.html { redirect_to user_posts_path, notice: 'Post deleted successfully.' }
+        format.js   # Xử lý yêu cầu AJAX
+      end
     else
-      redirect_to user_posts_path, alert: 'You can only delete your own posts.'
+      respond_to do |format|
+        format.html { redirect_to user_posts_path, alert: 'Failed to delete the post.' }
+        format.js   # Xử lý yêu cầu AJAX cho lỗi
+      end
     end
   end
-
   private
 
   def set_post
     @post = Post.find(params[:id])
+  end
+
+  def authorize_user!
+    unless @post.user == current_user
+      redirect_to posts_path, alert: 'You are not authorized to perform this action.'
+    end
   end
 
   def post_params

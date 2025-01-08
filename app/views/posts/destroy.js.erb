@@ -1,0 +1,18 @@
+// Loại bỏ bài viết khỏi giao diện nếu đang xem danh sách
+if (document.getElementById("post_<%= @post.id %>")) {
+  document.getElementById("post_<%= @post.id %>").remove();
+}
+
+// Hiển thị thông báo xóa thành công
+Swal.fire({
+  icon: 'success',
+  title: 'Deleted!',
+  text: 'Your post has been deleted.',
+  timer: 2000,
+  timerProgressBar: true
+});
+
+// Nếu đang xem chi tiết bài viết, chuyển hướng về trang danh sách
+if (window.location.href.includes("/posts/<%= @post.id %>")) {
+  window.location.href = "<%= user_posts_path %>";
+}
