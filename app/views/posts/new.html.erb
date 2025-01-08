@@ -26,27 +26,22 @@
 
 <script>
   document.addEventListener("turbo:load", function () {
-    const imageUpload = document.querySelector("#image-upload");
-    const preview = document.querySelector("#preview");
+    const imageUpload = document.getElementById("image-upload");
+    const preview = document.getElementById("preview");
 
     if (imageUpload) {
-      imageUpload.addEventListener("change", (event) => {
+      imageUpload.addEventListener("change", function (event) {
         preview.innerHTML = ""; // Xóa nội dung cũ
 
-        const file = event.target.files[0]; // Lấy file từ input
-        if (file && file.type.match("image.*")) {
-          const reader = new FileReader(); // Sử dụng FileReader để đọc file
+        const file = event.target.files[0]; // Lấy file
 
-          reader.onload = (e) => {
-            const img = document.createElement("img");
-            img.src = e.target.result; // Lấy dữ liệu URL từ FileReader
-            img.classList.add("img-thumbnail", "shadow-sm");
-            img.style.maxWidth = "300px";
-            img.style.marginTop = "10px";
-            preview.appendChild(img); // Hiển thị ảnh preview
-          };
-
-          reader.readAsDataURL(file); // Đọc file dưới dạng URL
+        if (file && file.type.startsWith("image/")) {
+          const img = document.createElement("img");
+          img.src = URL.createObjectURL(file);
+          img.classList.add("img-thumbnail", "shadow-sm");
+          img.style.maxWidth = "300px";
+          img.style.marginTop = "10px";
+          preview.appendChild(img); // Thêm ảnh preview
         } else {
           preview.innerHTML = '<p class="text-danger">Invalid file type. Please upload an image.</p>';
         }
@@ -71,10 +66,5 @@
 
   .btn-success:hover {
     background-color: #218838;
-  }
-
-  #preview img {
-    max-width: 300px;
-    margin-top: 10px;
   }
 </style>
