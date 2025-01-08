@@ -3,7 +3,6 @@
     <div class="container">
       <div class="row">
         <div class="col-12 col-md-6 col-left">
-          <!-- Xóa thông tin không cần thiết -->
         </div>
         <div class="col-12 col-md-6 col-right">
           <div class="d-flex flex-end">
@@ -46,10 +45,7 @@
             <%= link_to "Create Post", new_post_path, class: "nav-link" %>
           </li>
           <li class="nav-item">
-            <%= link_to "Post Cá Nhân", posts_path(user: current_user.id), class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Post Chung", posts_path, class: "nav-link" %>
+            <%= link_to "Post Cá Nhân", user_posts_path, class: "nav-link" %>
           </li>
         </ul>
       </div>

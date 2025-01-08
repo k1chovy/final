@@ -1,11 +1,14 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_post, only: [:show, :edit, :update]
+  before_action :set_post, only: [:show, :edit, :update, :destroy] # Thêm :destroy vào đây
 
   def index
-    # Hiển thị bài viết của chính người dùng và bài viết của người khác
-    @user_posts = Post.where(user: current_user) # Bài viết của người dùng hiện tại
-    @other_posts = Post.where.not(user: current_user) # Bài viết của người khác
+    @user_posts = Post.where(user: current_user)
+    @other_posts = Post.where.not(user: current_user)
+  end
+
+  def personal
+    @user_posts = current_user.posts
   end
 
   def show
@@ -38,6 +41,15 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    if @post.user == current_user
+      @post.destroy
+      redirect_to user_posts_path, notice: 'Post deleted successfully.'
+    else
+      redirect_to user_posts_path, alert: 'You can only delete your own posts.'
+    end
+  end
+
   private
 
   def set_post
@@ -45,7 +57,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    # Cho phép upload ảnh bằng cách thêm :image vào strong parameters
     params.require(:post).permit(:title, :content, :image)
   end
 end

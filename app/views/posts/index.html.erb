@@ -1,35 +1,93 @@
-<h1>Your Posts</h1>
-<% if @user_posts.present? %>
-  <% @user_posts.each do |post| %>
-    <div class="post">
-      <h3><%= link_to post.title, post_path(post) %></h3>
-      <% if post.image.attached? %>
-        <%= image_tag post.image, class: "img-thumbnail", style: "max-width: 300px;" %>
-      <% else %>
-        <p>No image available</p>
-      <% end %>
-      <p><%= truncate(post.content, length: 100) %></p>
-      <hr>
-    </div>
+<h1 class="text-center mb-4">Your Posts</h1>
+<div class="row">
+  <% if @user_posts.present? %>
+    <% @user_posts.each do |post| %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <% if post.image.attached? %>
+            <%= image_tag post.image, class: "card-img-top img-thumbnail", style: "max-height: 200px; object-fit: cover;" %>
+          <% else %>
+            <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top img-thumbnail" alt="No Image">
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %></h5>
+            <p class="card-text"><%= truncate(post.content, length: 100) %></p>
+          </div>
+          <div class="card-footer text-end">
+            <small class="text-muted">Published by You</small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-center">No posts found.</p>
   <% end %>
-<% else %>
-  <p>No posts found.</p>
-<% end %>
+</div>
 
-<h1>Other Users' Posts</h1>
-<% if @other_posts.present? %>
-  <% @other_posts.each do |post| %>
-    <div class="post">
-      <h3><%= link_to post.title, post_path(post) %></h3>
-      <% if post.image.attached? %>
-        <%= image_tag post.image, class: "img-thumbnail", style: "max-width: 300px;" %>
-      <% else %>
-        <p>No image available</p>
-      <% end %>
-      <p><%= truncate(post.content, length: 100) %></p>
-      <hr>
-    </div>
+<h1 class="text-center mt-5 mb-4">Other Users' Posts</h1>
+<div class="row">
+  <% if @other_posts.present? %>
+    <% @other_posts.each do |post| %>
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <% if post.image.attached? %>
+            <%= image_tag post.image, class: "card-img-top img-thumbnail", style: "max-height: 200px; object-fit: cover;" %>
+          <% else %>
+            <img src="https://via.placeholder.com/300x200?text=No+Image" class="card-img-top img-thumbnail" alt="No Image">
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to post.title, post_path(post), class: "text-decoration-none text-dark" %></h5>
+            <p class="card-text"><%= truncate(post.content, length: 100) %></p>
+          </div>
+          <div class="card-footer text-end">
+            <small class="text-muted">Published by Other Users</small>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <p class="text-center">No posts found.</p>
   <% end %>
-<% else %>
-  <p>No posts found.</p>
-<% end %>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const cards = document.querySelectorAll(".card");
+
+    cards.forEach((card) => {
+      card.addEventListener("mouseenter", () => {
+        card.classList.add("shadow-lg");
+      });
+
+      card.addEventListener("mouseleave", () => {
+        card.classList.remove("shadow-lg");
+      });
+    });
+  });
+</script>
+
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .card {
+    border-radius: 10px;
+  }
+
+  .card-title {
+    font-weight: bold;
+  }
+
+  .card-footer {
+    font-size: 0.9em;
+  }
+
+  .img-thumbnail {
+    border-radius: 10px;
+  }
+
+  h1 {
+    color: #343a40;
+  }
+</style>

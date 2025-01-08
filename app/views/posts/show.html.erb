@@ -1,0 +1,21 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h2><%= @post.title %></h2>
+      <p class="text-muted">By: <%= @post.user.email %> | Created at: <%= @post.created_at.strftime("%Y-%m-%d %H:%M") %></p>
+    </div>
+    <div class="card-body">
+      <% if @post.image.attached? %>
+        <%= image_tag @post.image, class: "img-fluid rounded mb-3", style: "max-width: 100%;" %>
+      <% else %>
+        <p><em>No image attached</em></p>
+      <% end %>
+      <p><%= @post.content %></p>
+    </div>
+    <div class="card-footer">
+      <%= link_to "Edit", edit_post_path(@post), class: "btn btn-warning" %>
+      <%= link_to "Delete", post_path(@post), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
+      <%= link_to "Back to Posts", posts_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

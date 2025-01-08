@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
   
-  # Routes for posts functionality
-  resources :posts, only: [:index, :show, :new, :create, :edit, :update]
+  # Routes cho bài viết cá nhân
+  get 'personal', to: 'posts#personal', as: 'user_posts'
 
-  # Set the root path to posts#index
+  # Routes cho bài viết chung
+  resources :posts, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+
+  # Root
   root "posts#index"
 end
