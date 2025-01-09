@@ -16,7 +16,11 @@ class AdminController < ApplicationController
     end
   
     def dashboard
-      # Trang admin chính sau khi đăng nhập
+      @new_posts_count = Post.where("created_at >= ?", 1.day.ago).count
+      @new_clients_count = User.where("created_at >= ?", 1.day.ago).count
+      @total_posts = Post.count
+      @total_comments = Comment.count
+      @total_users = User.count
     end
   
     def logout

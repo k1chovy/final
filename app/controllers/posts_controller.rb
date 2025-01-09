@@ -8,6 +8,10 @@ class PostsController < ApplicationController
     @other_posts = Post.where.not(user: current_user)
   end
 
+  def admin_index
+    @posts = Post.all.order("created_at DESC")
+  end
+
   def personal
     @user_posts = current_user.posts
   end

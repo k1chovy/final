@@ -74,9 +74,9 @@
               <i class="icon-pencil card-icon"></i>
             </div>
             <h5 class="card-title">New Posts</h5>
-            
+            <h3 class="mb-3"><%= @new_posts_count %></h3>
             <p class="card-text">Manage and view all posts.</p>
-            <%= link_to "Manage Posts", posts_path, class: "btn btn-light btn-custom" %>
+            <%= link_to 'Admin Posts', admin_posts_path, class: "btn btn-light btn-custom" %>
           </div>
         </div>
       </div>
@@ -88,10 +88,10 @@
             <div class="icon-bg bg-dark">
               <i class="icon-user card-icon"></i>
             </div>
-            <h5 class="card-title">New Clients</h5>
-            
+            <h5 class="card-title">New User</h5>
+            <h3 class="mb-3"><%= @new_clients_count %></h3>
             <p class="card-text">Manage user accounts and permissions.</p>
-            
+            <%= link_to "Manage Users", users_path, class: "btn btn-light btn-custom" %>
           </div>
         </div>
       </div>
@@ -104,7 +104,7 @@
           <div class="stat-icon text-primary">
             <i class="icon-pencil"></i>
           </div>
-          
+          <h3><%= @total_posts %></h3>
           <p>Total Posts</p>
         </div>
       </div>
@@ -114,7 +114,7 @@
           <div class="stat-icon text-warning">
             <i class="icon-speech"></i>
           </div>
-          
+          <h3><%= @total_comments %></h3>
           <p>Total Comments</p>
         </div>
       </div>
@@ -124,7 +124,7 @@
           <div class="stat-icon text-success">
             <i class="icon-user"></i>
           </div>
-          
+          <h3><%= @total_users %></h3>
           <p>Total Users</p>
         </div>
       </div>
