@@ -1,54 +1,174 @@
+<style>
+  .navbar {
+    background-color: #343a40;
+    padding: 10px 15px;
+  }
+
+  .navbar-brand {
+    color: white !important;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .navbar-nav .nav-link {
+    color: white !important;
+    font-size: 16px;
+    margin: 0 10px;
+    transition: color 0.3s;
+  }
+
+  .navbar-nav .nav-link:hover {
+    color: yellow !important;
+  }
+
+  .account-menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: white;
+  }
+
+  .account-menu img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 40px;
+    right: 0;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+    z-index: 1000;
+  }
+
+  .dropdown-menu.active {
+    display: block;
+  }
+
+  .dropdown-menu a,
+  .dropdown-menu button {
+    display: block;
+    width: 100%;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #343a40;
+    font-size: 14px;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s;
+    border: none;
+    background-color: transparent;
+  }
+
+  .dropdown-menu a:hover,
+  .dropdown-menu button:hover {
+    background-color: #f8f9fa;
+    color: #343a40;
+  }
+
+  /* Nút Logout được làm nổi bật */
+  .dropdown-menu .btn-logout {
+    background-color: #dc3545;
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .dropdown-menu .btn-logout:hover {
+    background-color: #c82333;
+    transform: scale(1.05);
+  }
+
+  .dropdown-menu a:first-child {
+    background-color: #ffc107;
+    color: white;
+    font-weight: bold;
+  }
+
+  .dropdown-menu a:first-child:hover {
+    background-color: #e0a800;
+  }
+</style>
+
 <header>
-  <div class="header-top">
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-md-6 col-left">
-        </div>
-        <div class="col-12 col-md-6 col-right">
-          <div class="d-flex flex-end">
-            <div class="item">
-              <span>
-                <i class="bi bi-person-fill fst-normal"></i>
-              </span>
-              <a href="#">Tài khoản</a>
-              <% if user_signed_in? %>
-                <div class="wrap-account">
-                  <%= link_to "Tài khoản", edit_user_registration_path, class: "d-block", data: { turbo: false } %>
-                  <%= button_to "Đăng xuất", destroy_user_session_path, method: :delete, class: "d-block btn-register", data: { turbo: false } %>
-                </div>
-              <% else %>
-                <div class="wrap-account">
-                  <%= link_to "Đăng nhập", new_user_session_path, class: "d-block", data: { turbo: false } %>
-                  <%= link_to "Đăng ký", new_user_registration_path, class: "d-block", data: { turbo: false } %>
-                </div>
-              <% end %>
-            </div>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+      <%= link_to "HOME", root_path, class: "navbar-brand" %>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to "Create Post", new_post_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Post Cá Nhân", user_posts_path, class: "nav-link" %>
+            </li>
+          <% end %>
+        </ul>
+
+        <!-- Tài khoản -->
+        <div class="account-menu" id="accountMenu">
+          <img src="https://via.placeholder.com/40" alt="User">
+          <span>
+            <% if user_signed_in? %>
+              Xin chào, <%= current_user.email.split('@').first.capitalize %>
+            <% else %>
+              Tài khoản
+            <% end %>
+          </span>
+
+          <div class="dropdown-menu" id="dropdownMenu">
+            <% if user_signed_in? %>
+              <%= link_to "Tài khoản", edit_user_registration_path, data: { turbo: false } %>
+              <%= button_to "Đăng xuất", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn-logout" %>
+            <% else %>
+              <%= link_to "Đăng nhập", new_user_session_path, data: { turbo: false } %>
+              <%= link_to "Đăng ký", new_user_registration_path, data: { turbo: false } %>
+            <% end %>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </nav>
 </header>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <span data-turbo="false" class="navbar-brand mx-auto">
-      <%= link_to "HOME", root_path, class: "navbar-brand" %>
-    </span>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <% if user_signed_in? %>
-      <div class="collapse navbar-collapse justify-content-start" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <%= link_to "Create Post", new_post_path, class: "nav-link" %>
-          </li>
-          <li class="nav-item">
-            <%= link_to "Post Cá Nhân", user_posts_path, class: "nav-link" %>
-          </li>
-        </ul>
-      </div>
-    <% end %>
-  </div>
-</nav>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const accountMenu = document.getElementById("accountMenu");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    // Hiển thị dropdown khi hover vào tài khoản
+    accountMenu.addEventListener("mouseenter", function () {
+      dropdownMenu.classList.add("active");
+    });
+
+    // Giữ dropdown mở khi di chuột vào menu
+    dropdownMenu.addEventListener("mouseenter", function () {
+      dropdownMenu.classList.add("active");
+    });
+
+    // Ẩn dropdown khi rời khỏi dropdown menu
+    dropdownMenu.addEventListener("mouseleave", function () {
+      dropdownMenu.classList.remove("active");
+    });
+
+    // Ẩn dropdown khi click ra ngoài
+    document.addEventListener("click", function (e) {
+      if (!accountMenu.contains(e.target)) {
+        dropdownMenu.classList.remove("active");
+      }
+    });
+  });
+</script>
