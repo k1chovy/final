@@ -1,8 +1,21 @@
-<h1>Edit User</h1>
-<%= form_with model: @user, local: true do |f| %>
-  <%= f.label :email %>
-  <%= f.email_field :email, class: 'form-control' %>
-  <%= f.label :admin %>
-  <%= f.check_box :admin %>
-  <%= f.submit 'Update User', class: 'btn btn-primary' %>
-<% end %>
+<h1 class="text-center my-4">Edit User</h1>
+
+<div class="container">
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-primary text-white text-center">
+      <h4>Update User Information</h4>
+    </div>
+    <div class="card-body">
+      <%= form_with model: @user, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :email, "Email Address", class: "form-label" %>
+          <%= f.email_field :email, class: "form-control", placeholder: "Enter email" %>
+        </div>
+        <div class="d-grid gap-2">
+          <%= f.submit 'Update User', class: "btn btn-success btn-lg" %>
+          <%= link_to 'Back to Users', users_path, class: "btn btn-secondary btn-lg" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
